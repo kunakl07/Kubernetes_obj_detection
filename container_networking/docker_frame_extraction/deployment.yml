@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frame-extraction-deployment-10
+  labels: 
+    app: frame-extraction-deployment-10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frame-extraction-deployment-10
+  template:
+    metadata:
+      labels:
+        app: frame-extraction-deployment-10
+    spec:
+      containers:
+      - name: frame-extraction-deployment-10
+        image: kume4352/frame_extraction:latest
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frame-extraction-deployment-service-10
+spec:
+  selector:
+    app: frame-extraction-deployment-10
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: LoadBalancer
